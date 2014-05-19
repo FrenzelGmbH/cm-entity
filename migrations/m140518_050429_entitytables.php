@@ -103,6 +103,7 @@ class m140518_050429_entitytables extends \yii\db\Migration
     $this->dropForeignKey('fk_entity_type_entity_parent', '{{%entity_type}}');
 
     $this->dropTable('{{%entity_type}}');
+    $this->dropTable('{{%entity_relation}}');
 		$this->dropTable('{{%entity}}');
 	}
 }
