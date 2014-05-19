@@ -27,6 +27,7 @@ class m140518_050429_entitytables extends \yii\db\Migration
 
 		$this->createTable('{{%entity}}',[
       'id'                => Schema::TYPE_PK,
+      'parent_id'         => Schema::TYPE_INTEGER.' DEFAULT NULL',
       'name'              => Schema::TYPE_STRING .'(100)',
       'prename'           => Schema::TYPE_STRING .'(100)',
       'name_two'          => Schema::TYPE_STRING .'(100)',
@@ -50,9 +51,12 @@ class m140518_050429_entitytables extends \yii\db\Migration
       'entity_type_id'    => Schema::TYPE_INTEGER.' DEFAULT NULL',
     ],$tableOptions);
 
+    $this->addForeignKey('fk_entity_entity_parent', '{{%entity}}', 'parent_id', '{{%entity}}', 'id', 'CASCADE', 'RESTRICT');
+
     $this->createTable('{{%entity_type}}',[
       'id'                => Schema::TYPE_PK,
       'name'              => Schema::TYPE_STRING .'(100)',
+      'parent_id'         => Schema::TYPE_INTEGER.' DEFAULT NULL',
       //possible reference to user
       'user_id'           => Schema::TYPE_INTEGER.' NULL',
       //interface fields
@@ -65,7 +69,8 @@ class m140518_050429_entitytables extends \yii\db\Migration
       'deleted_at'        => Schema::TYPE_INTEGER . ' DEFAULT NULL'
     ],$tableOptions);
 
-    $this->addForeignKey('fk_entity_entity_type', '{{%entity}}', 'entity_type_id', '{{%entity_type}}', 'id', 'CASCADE', 'RESTRICT');
+    $this->addForeignKey('fk_entity_type_entity_parent', '{{%entity_type}}', 'parent_id', '{{%entity_type}}', 'id', 'CASCADE', 'RESTRICT');
+    $this->addForeignKey('fk_entity_type_entity_type', '{{%entity}}', 'entity_type_id', '{{%entity_type}}', 'id', 'CASCADE', 'RESTRICT');
 
 	}
 
@@ -73,6 +78,8 @@ class m140518_050429_entitytables extends \yii\db\Migration
 	{
 		//drop FK's first
     $this->dropForeignKey('fk_entity_entity_type', '{{%entity}}');
+    $this->dropForeignKey('fk_entity_entity_parent', '{{%entity}}');
+    $this->dropForeignKey('fk_entity_type_entity_parent', '{{%entity_type}}');
 
     $this->dropTable('{{%entity_type}}');
 		$this->dropTable('{{%entity}}');
