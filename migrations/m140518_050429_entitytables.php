@@ -27,7 +27,6 @@ class m140518_050429_entitytables extends \yii\db\Migration
 
 		$this->createTable('{{%entity}}',[
       'id'                => Schema::TYPE_PK,
-      'parent_id'         => Schema::TYPE_INTEGER.' DEFAULT NULL',
       'name'              => Schema::TYPE_STRING .'(100)',
       'prename'           => Schema::TYPE_STRING .'(100)',
       'name_two'          => Schema::TYPE_STRING .'(100)',
@@ -49,9 +48,28 @@ class m140518_050429_entitytables extends \yii\db\Migration
       'deleted_at'        => Schema::TYPE_INTEGER . ' DEFAULT NULL',
       //Foreign Keys
       'entity_type_id'    => Schema::TYPE_INTEGER.' DEFAULT NULL',
+      'entity_relation_id'=> Schema::TYPE_INTEGER.' DEFAULT NULL',
     ],$tableOptions);
 
-    $this->addForeignKey('fk_entity_entity_parent', '{{%entity}}', 'parent_id', '{{%entity}}', 'id', 'CASCADE', 'RESTRICT');
+    $this->createTable('{{%entity_relation}}',[
+      'id'                => Schema::TYPE_PK,
+      'from_entity_id'    => Schema::TYPE_INTEGER.' DEFAULT NULL',
+      'to_entity_id'      => Schema::TYPE_INTEGER.' DEFAULT NULL',
+      'relation'          => Schema::TYPE_STRING .'(100)',
+      //possible reference to user
+      'user_id'           => Schema::TYPE_INTEGER.' NULL',
+      //interface fields
+      'system_key'        => Schema::TYPE_STRING .'(100)',
+      'system_name'       => Schema::TYPE_STRING .'(100)',
+      'system_upate'      => Schema::TYPE_INTEGER.' DEFAULT NULL',
+      // timestamps
+      'created_at'        => Schema::TYPE_INTEGER . ' NOT NULL',
+      'updated_at'        => Schema::TYPE_INTEGER . ' NOT NULL',
+      'deleted_at'        => Schema::TYPE_INTEGER . ' DEFAULT NULL'
+    ],$tableOptions);
+
+    $this->addForeignKey('fk_entity_relation_entity_from', '{{%entity_relation}}', 'from_entity_id', '{{%entity}}', 'id', 'CASCADE', 'RESTRICT');
+    $this->addForeignKey('fk_entity_relation_entity_to', '{{%entity_relation}}', 'to_entity_id', '{{%entity}}', 'id', 'CASCADE', 'RESTRICT');
 
     $this->createTable('{{%entity_type}}',[
       'id'                => Schema::TYPE_PK,
@@ -78,7 +96,10 @@ class m140518_050429_entitytables extends \yii\db\Migration
 	{
 		//drop FK's first
     $this->dropForeignKey('fk_entity_entity_type', '{{%entity}}');
-    $this->dropForeignKey('fk_entity_entity_parent', '{{%entity}}');
+
+    $this->dropForeignKey('fk_entity_relation_entity_from', '{{%entity_relation}}');
+    $this->dropForeignKey('fk_entity_relation_entity_to', '{{%entity_relation}}');
+
     $this->dropForeignKey('fk_entity_type_entity_parent', '{{%entity_type}}');
 
     $this->dropTable('{{%entity_type}}');
