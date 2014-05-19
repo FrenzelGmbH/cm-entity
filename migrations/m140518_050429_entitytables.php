@@ -27,12 +27,14 @@ class m140518_050429_entitytables extends \yii\db\Migration
 
 		$this->createTable('{{%entity}}',[
       'id'                => Schema::TYPE_PK,
-      'name'              => Schema::TYPE_STRING .'(100)',
+      'name'              => Schema::TYPE_STRING .'(140)',
       'prename'           => Schema::TYPE_STRING .'(100)',
       'name_two'          => Schema::TYPE_STRING .'(100)',
       'name_three'        => Schema::TYPE_STRING .'(100)',
       'official_one'      => Schema::TYPE_STRING .'(60)',
       'official_two'      => Schema::TYPE_STRING .'(60)',
+      'param_date'        => Schema::TYPE_DATE,
+      'param_text'        => Schema::TYPE_TEXT,
       //possible reference to user
       'user_id'           => Schema::TYPE_INTEGER.' NULL',
       //module fields
@@ -88,7 +90,7 @@ class m140518_050429_entitytables extends \yii\db\Migration
     ],$tableOptions);
 
     $this->addForeignKey('fk_entity_type_entity_parent', '{{%entity_type}}', 'parent_id', '{{%entity_type}}', 'id', 'CASCADE', 'RESTRICT');
-    $this->addForeignKey('fk_entity_type_entity_type', '{{%entity}}', 'entity_type_id', '{{%entity_type}}', 'id', 'CASCADE', 'RESTRICT');
+    $this->addForeignKey('fk_entity_entity_type', '{{%entity}}', 'entity_type_id', '{{%entity_type}}', 'id', 'CASCADE', 'RESTRICT');
 
 	}
 
@@ -96,11 +98,10 @@ class m140518_050429_entitytables extends \yii\db\Migration
 	{
 		//drop FK's first
     $this->dropForeignKey('fk_entity_entity_type', '{{%entity}}');
-
-    $this->dropForeignKey('fk_entity_relation_entity_from', '{{%entity_relation}}');
-    $this->dropForeignKey('fk_entity_relation_entity_to', '{{%entity_relation}}');
-
     $this->dropForeignKey('fk_entity_type_entity_parent', '{{%entity_type}}');
+
+    $this->dropForeignKey('fk_entity_relation_entity_to', '{{%entity_relation}}');
+    $this->dropForeignKey('fk_entity_relation_entity_from', '{{%entity_relation}}');    
 
     $this->dropTable('{{%entity_type}}');
     $this->dropTable('{{%entity_relation}}');
