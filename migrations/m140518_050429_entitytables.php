@@ -15,22 +15,24 @@ class m140518_050429_entitytables extends \yii\db\Migration
 	{
     
     switch (Yii::$app->db->driverName) {
-        case 'mysql':
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
-            break;
-        case 'pgsql':
-            $tableOptions = null;
-            break;
-        default:
-            throw new RuntimeException('Your database is not supported!');
+      case 'mysql':
+        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        break;
+      case 'pgsql':
+        $tableOptions = null;
+        break;
+      default:
+        throw new RuntimeException('Your database is not supported!');
     }
 
-		$this->createTable('{{%communication}}',[
-      'id'     => Schema::TYPE_PK,
-      'mobile' => Schema::TYPE_STRING .'(200)',
-      'phone'  => Schema::TYPE_STRING .'(200)',
-      'fax'    => Schema::TYPE_STRING .'(200)',
-      'email'  => Schema::TYPE_STRING .'(200)',
+		$this->createTable('{{%entity}}',[
+      'id'                => Schema::TYPE_PK,
+      'name'              => Schema::TYPE_STRING .'(100)',
+      'prename'           => Schema::TYPE_STRING .'(100)',
+      'name_two'          => Schema::TYPE_STRING .'(100)',
+      'name_three'        => Schema::TYPE_STRING .'(100)',
+      'official_one'      => Schema::TYPE_STRING .'(60)',
+      'official_two'      => Schema::TYPE_STRING .'(60)',
       //possible reference to user
       'user_id'           => Schema::TYPE_INTEGER.' NULL',
       //module fields
@@ -45,24 +47,34 @@ class m140518_050429_entitytables extends \yii\db\Migration
       'updated_at'        => Schema::TYPE_INTEGER . ' NOT NULL',
       'deleted_at'        => Schema::TYPE_INTEGER . ' DEFAULT NULL',
       //Foreign Keys
-      'communication_type_id' => Schema::TYPE_INTEGER,      
+      'entity_type_id'    => Schema::TYPE_INTEGER.' DEFAULT NULL',
     ],$tableOptions);
 
-    $this->createTable('{{%communication_type}}',[
-        'id'            => Schema::TYPE_PK,
-        'name'          => Schema::TYPE_STRING .'(100)',
+    $this->createTable('{{%entity_type}}',[
+      'id'                => Schema::TYPE_PK,
+      'name'              => Schema::TYPE_STRING .'(100)',
+      //possible reference to user
+      'user_id'           => Schema::TYPE_INTEGER.' NULL',
+      //interface fields
+      'system_key'        => Schema::TYPE_STRING .'(100)',
+      'system_name'       => Schema::TYPE_STRING .'(100)',
+      'system_upate'      => Schema::TYPE_INTEGER.' DEFAULT NULL',
+      // timestamps
+      'created_at'        => Schema::TYPE_INTEGER . ' NOT NULL',
+      'updated_at'        => Schema::TYPE_INTEGER . ' NOT NULL',
+      'deleted_at'        => Schema::TYPE_INTEGER . ' DEFAULT NULL'
     ],$tableOptions);
 
-    $this->addForeignKey('fk_communication_communication_type', '{{%communication}}', 'communication_type_id', '{{%communication_type}}', 'id', 'CASCADE', 'RESTRICT');
+    $this->addForeignKey('fk_entity_entity_type', '{{%entity}}', 'entity_type_id', '{{%entity_type}}', 'id', 'CASCADE', 'RESTRICT');
 
 	}
 
 	public function down()
 	{
 		//drop FK's first
-    $this->dropForeignKey('fk_communication_communication_type', '{{%communication}}');
+    $this->dropForeignKey('fk_entity_entity_type', '{{%entity}}');
 
-    $this->dropTable('{{%communication_type}}');
-		$this->dropTable('{{%communication}}');
+    $this->dropTable('{{%entity_type}}');
+		$this->dropTable('{{%entity}}');
 	}
 }
