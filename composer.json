@@ -1,6 +1,6 @@
 {
   "name": "frenzelgmbh/cm-entity",
-  "description": "Common Address Module for yii2",
+  "description": "Common Entity Module for yii2",
   "keywords": [
     "yii2",
     "address module",
