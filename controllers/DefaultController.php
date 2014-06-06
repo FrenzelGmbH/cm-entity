@@ -8,11 +8,15 @@ use yii\helpers\Json;
 
 use frenzelgmbh\appcommon\controllers\AppController;
 
-use frenzelgmbh\cmentity\models\Address;
-use frenzelgmbh\cmentity\models\Country;
+use frenzelgmbh\cmentity\models\Entity;
 
 class DefaultController extends AppController
 {
+  /**
+   * Set the default layout to the modules view column2
+   * @var string
+   */
+  public $layout = 'column2';
   
   /**
    * controlling the different access rights
@@ -38,7 +42,7 @@ class DefaultController extends AppController
               'create',
               'jscountry'
             ),
-            'roles'=>array('*'),
+            'roles'=>array('@'),
           ],
           [
             'allow'=>true,
