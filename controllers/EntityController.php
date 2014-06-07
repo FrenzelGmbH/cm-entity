@@ -5,14 +5,14 @@ namespace frenzelgmbh\cmentity\controllers;
 use Yii;
 use frenzelgmbh\cmentity\models\Entity;
 use frenzelgmbh\cmentity\models\EntitySearch;
-use yii\web\Controller;
+use frenzelgmbh\appcommon\controllers\AppController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * EntityController implements the CRUD actions for Entity model.
  */
-class EntityController extends Controller
+class EntityController extends AppController
 {
   /**
    * Set the default layout to the modules view column2
