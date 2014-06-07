@@ -50,7 +50,7 @@ class m140518_050429_entitytables extends \yii\db\Migration
       'deleted_at'        => Schema::TYPE_INTEGER . ' DEFAULT NULL',
       //Foreign Keys
       'entity_type_id'    => Schema::TYPE_INTEGER.' DEFAULT NULL',
-      'entity_relation_id'=> Schema::TYPE_INTEGER.' DEFAULT NULL',
+      //'entity_relation_id'=> Schema::TYPE_INTEGER.' DEFAULT NULL',
     ],$tableOptions);
 
     $this->createTable('{{%entity_relation}}',[
