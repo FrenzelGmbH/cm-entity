@@ -3,6 +3,7 @@
 namespace frenzelgmbh\cmentity\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "tbl_entity_type".
@@ -29,7 +30,17 @@ class EntityType extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_entity_type';
+        return '{{%entity_type}}';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**

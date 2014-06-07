@@ -29,7 +29,7 @@ class EntityRelation extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_entity_relation';
+        return '{{%entity_relation}}';
     }
 
     /**
