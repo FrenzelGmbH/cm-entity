@@ -13,7 +13,7 @@ Add the following line to your composer.json require section:
 ```
 
 ```
-php yii migrate --migrationPath=@vendor/frenzelgmbh/cmentity/migrations
+php yii migrate --migrationPath=@vendor/frenzelgmbh/cm-entity/migrations
 ```
 
 Inside your yii-config, pls. add the following lines to your modules section. As you
