@@ -1,13 +1,52 @@
 <?php
 
-use yii\helpers\Html;
+use yii\helpers\Url;
+use kartik\helpers\Html;
 use yii\widgets\ActiveForm;
+
+use kartik\widgets\ActiveForm;
+use kartik\widgets\Select2;
+
+use yii\bootstrap\Modal;
 
 /**
  * @var yii\web\View $this
  * @var app\modules\categories\models\Entity $model
  * @var yii\widgets\ActiveForm $form
  */
+?>
+
+<?php 
+  
+Modal::begin([
+  'id'=>'centitytype',
+  'header' => '<i class="fa fa-info"></i>Loading...',
+  'closeButton' => ['tag'=>'button','label'=>'close']
+]);
+echo 'pls. wait one moment...';
+Modal::end();
+
+$modalJS = <<<MODALJS
+
+appendcomtype = function(data){
+    var model = data.model;
+    $('#communication-communication_type_id').append('<option value="' + model.id + '">' + model.name + '</option>');
+}
+
+opencentitytypemod = function(){
+    var th=$(this), id=th.attr('id').slice(0);  
+    $('#centitytype').modal('show');
+    $('#centitytype div.modal-header').html('Add Address');
+    $('#centitytype div.modal-body').load(th.attr('href'));
+    return false;
+};
+
+$('#mod_communication_type_add').on('click',opencentitytypemod);
+
+MODALJS;
+
+  $this->registerJs($modalJS);
+
 ?>
 
 <div class="entity-form">
