@@ -61,7 +61,7 @@ class Entity extends \yii\db\ActiveRecord
             [['param_date'], 'safe'],
             [['param_text'], 'string'],
             [['user_id', 'mod_id', 'system_upate', 'created_at', 'updated_at', 'deleted_at', 'entity_type_id', 'entity_relation_id'], 'integer'],
-            [['created_at', 'updated_at'], 'required'],
+            //[['created_at', 'updated_at'], 'required'],
             [['name'], 'string', 'max' => 140],
             [['prename', 'name_two', 'name_three', 'mod_table', 'system_key', 'system_name'], 'string', 'max' => 100],
             [['official_one', 'official_two'], 'string', 'max' => 60]
