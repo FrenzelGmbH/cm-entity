@@ -58,7 +58,7 @@ class Entity extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['param_date'], 'safe'],
+            [['param_date'], 'date'],
             [['param_text'], 'string'],
             [['user_id', 'mod_id', 'system_upate', 'created_at', 'updated_at', 'deleted_at', 'entity_type_id', 'entity_relation_id'], 'integer'],
             //[['created_at', 'updated_at'], 'required'],
