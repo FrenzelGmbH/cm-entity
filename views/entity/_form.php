@@ -14,13 +14,23 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => 140]) ?>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'prename')->textInput(['maxlength' => 100]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => 140]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'prename')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'name_two')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'name_three')->textInput(['maxlength' => 100]) ?>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'name_two')->textInput(['maxlength' => 100]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'name_three')->textInput(['maxlength' => 100]) ?>
+        </div>
+    </div>    
 
     <?= $form->field($model, 'param_date')->textInput() ?>
 
