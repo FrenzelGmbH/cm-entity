@@ -10,7 +10,7 @@ use frenzelgmbh\cmentity\models\EntityType;
 
 /**
  * @var yii\web\View $this
- * @var app\modules\categories\models\Entity $model
+ * @var frenzelgmbh\cmentity\models\Entity $model
  * @var yii\widgets\ActiveForm $form
  */
 
