@@ -56,7 +56,7 @@ MODALJS;
         <div class="col-md-12">
     <?php
         echo $form->field($model, 'entity_type_id')->widget(Select2::classname(), [
-            'data' => array_merge(["" => ""], EntityType::pdEntityType()),
+            'data' => EntityType::pdEntityType(),
             'options' => [
                 'placeholder' => 'Entity Type...'                
             ],
