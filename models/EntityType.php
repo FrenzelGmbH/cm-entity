@@ -97,4 +97,13 @@ class EntityType extends \yii\db\ActiveRecord
     {
         return $this->hasMany(EntityType::className(), ['parent_id' => 'id']);
     }
+
+    /**
+     * returns the data for a form pull down
+     * @return [type] [description]
+     */
+    public static function pdEntityType()
+    {
+        return ArrayHelper::map(self::find()->asArray()->all(), 'id', 'name');
+    }
 }
