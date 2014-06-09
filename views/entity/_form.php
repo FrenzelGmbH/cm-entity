@@ -26,20 +26,20 @@ Modal::end();
 
 $modalJS = <<<MODALJS
 
-appendcomtype = function(data){
+appendenttype = function(data){
     var model = data.model;
-    $('#communication-communication_type_id').append('<option value="' + model.id + '">' + model.name + '</option>');
+    $('#entity-entity_type_id').append('<option value="' + model.id + '">' + model.name + '</option>');
 }
 
 opencentitytypemod = function(){
     var th=$(this), id=th.attr('id').slice(0);  
     $('#centitytype').modal('show');
-    $('#centitytype div.modal-header').html('Add Address');
+    $('#centitytype div.modal-header').html('Add Entity');
     $('#centitytype div.modal-body').load(th.attr('href'));
     return false;
 };
 
-$('#mod_communication_type_add').on('click',opencentitytypemod);
+$('#mod_entity_type_add').on('click',opencentitytypemod);
 
 MODALJS;
 
@@ -50,6 +50,37 @@ MODALJS;
 <div class="entity-form">
 
     <?php $form = ActiveForm::begin(); ?>
+
+    <div class="row">
+        <div class="col-md-12">
+    <?php
+        echo $form->field($model, 'entity_type_id')->widget(Select2::classname(), [
+            'data' => array_merge(["" => ""], EntityType::pdEntityType()),
+            'options' => [
+                'placeholder' => 'Entity Type...'                
+            ],
+            'addon' => [
+                'prepend' => [
+                    'content' => Html::icon('globe')
+                ],
+                'append' => [
+                    'content' => Html::button(Html::icon('plus'), [
+                        'class'=>'btn btn-default',
+                        'id'   => 'mod_entity_type_add', 
+                        'title'=>'add new entity', 
+                        'data-toggle'=>'tooltip',
+                        'href' => Url::to(['/entity/entity-type/create'])
+                    ]),
+                    'asButton'=>true
+                ]
+            ],
+            'pluginOptions' => [
+                'allowClear' => true,
+            ],
+        ]);
+    ?>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-6">
@@ -76,24 +107,6 @@ MODALJS;
     <?= $form->field($model, 'official_one')->textInput(['maxlength' => 60]) ?>
 
     <?= $form->field($model, 'official_two')->textInput(['maxlength' => 60]) ?>
-
-    <?= $form->field($model, 'mod_id')->textInput() ?>
-
-    <?= $form->field($model, 'system_upate')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <?= $form->field($model, 'deleted_at')->textInput() ?>
-
-    <?= $form->field($model, 'entity_type_id')->textInput() ?>
-    
-    <?= $form->field($model, 'mod_table')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'system_key')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'system_name')->textInput(['maxlength' => 100]) ?>
 
     
     <div class="form-group">
