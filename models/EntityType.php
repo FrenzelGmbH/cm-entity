@@ -4,6 +4,7 @@ namespace frenzelgmbh\cmentity\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "tbl_entity_type".
