@@ -105,6 +105,6 @@ class EntityType extends \yii\db\ActiveRecord
      */
     public static function pdEntityType()
     {
-        return ArrayHelper::map(self::find()->asArray()->all(), 'id', 'name');
+        return ArrayHelper::merge(['0'=>'None'],ArrayHelper::map(self::find()->asArray()->all(), 'id', 'name'));
     }
 }
