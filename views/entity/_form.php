@@ -6,6 +6,7 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\Select2;
 
 use yii\bootstrap\Modal;
+use frenzelgmbh\cmentity\models\EntityType;
 
 /**
  * @var yii\web\View $this
