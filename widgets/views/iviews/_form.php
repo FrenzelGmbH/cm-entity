@@ -1,27 +1,27 @@
 <?php
 
-use yii\helpers\Html;
 use yii\helpers\Url;
-
-use yii\web\JsExpression;
+use kartik\helpers\Html;
 use kartik\widgets\ActiveForm;
-
 use kartik\widgets\Select2;
+
+use yii\bootstrap\Modal;
+use frenzelgmbh\cmentity\models\EntityType;
 
 /**
  * @var yii\web\View $this
- * @var app\modules\parties\models\Address $model
+ * @var app\modules\categories\models\Entity $model
  * @var yii\widgets\ActiveForm $form
  */
 
 $script = <<<SKRIPT
 
-$('#submitAddressCreate').on('click',function(event){
-  $('#AddressCreateForm').ajaxSubmit(
+$('#submitEntityCreate').on('click',function(event){
+  $('#EntityCreateForm').ajaxSubmit(
   {
     type : "POST",
     success: function(data){
-      $('#caddressmod').modal('hide');
+      $('#centitytype').modal('hide');
     }
   });
   event.preventDefault();
@@ -33,79 +33,108 @@ $this->registerJs($script);
 
 ?>
 
-<div class="address-form">
+<?php 
+  
+Modal::begin([
+  'id'=>'centitytype',
+  'header' => '<i class="fa fa-info"></i>Loading...',
+  'closeButton' => ['tag'=>'button','label'=>'close']
+]);
+echo 'pls. wait one moment...';
+Modal::end();
 
-  <?php $form = ActiveForm::begin([
-    'id' => 'AddressCreateForm',
-    'action' => Url::to(['/address/default/create']),
-  ]); ?>
+$modalJS = <<<MODALJS
 
-    <?= Html::activeHiddenInput($model,'mod_id'); ?>
-    <?= Html::activeHiddenInput($model,'mod_table'); ?>
+appendenttype = function(data){
+    var model = data.model;
+    $('#entity-entity_type_id').append('<option value="' + model.id + '">' + model.name + '</option>');
+}
 
-    <?= $form->field($model, 'addresslineOne')->textInput(['maxlength' => 200]) ?>
+opencentitytypemod = function(){
+    var th=$(this), id=th.attr('id').slice(0);  
+    $('#centitytype').modal('show');
+    $('#centitytype div.modal-header').html('Add Entity');
+    $('#centitytype div.modal-body').load(th.attr('href'));
+    return false;
+};
 
-    <?= $form->field($model, 'addresslineTwo')->textInput(['maxlength' => 200]) ?>
+$('#mod_entity_type_add').on('click',opencentitytypemod);
 
-    <?= $form->field($model, 'zipCode')->textInput(['maxlength' => 100]) ?>
+MODALJS;
 
-    <?= $form->field($model, 'cityName')->textInput(['maxlength' => 100]) ?>
-
-<?php
-
-$dataExp = <<< SCRIPT
-  function (term, page) {
-    return {
-      search: term, // search term
-    };
-  }
-SCRIPT;
-
-$dataResults = <<< SCRIPT
-  function (data, page) {
-    return {
-      results: data.results
-    };
-  }
-SCRIPT;
-
-$url = Url::to(['/address/default/jscountry']);
-
-$fInitSelection = <<< SCRIPT
-  function (element, callback) {
-    var id=$(element).val();
-    if (id!=="") {
-      $.ajax("$url&id="+id, {
-        dataType: "json"
-      }).done(function(data) { callback(data.results); });
-    }
-  }
-SCRIPT;
+  $this->registerJs($modalJS);
 
 ?>
 
-    <?= $form->field($model, 'country_id')->widget(Select2::classname(),[
-          'pluginOptions'=>[
-            'allowClear' => true,
-            'minimumInputLength' => 2,
-            'ajax' => [
-              'url' => $url,
-              'dataType' => 'json',
-              'data' => new JsExpression($dataExp),
-              'results' => new JsExpression($dataResults),
-            ],
-            'initSelection' => new JsExpression($fInitSelection)
-          ]
+<div class="entity-form">
+
+    <?php $form = ActiveForm::begin([
+      'id' => 'EntityCreateForm',
+      'action' => Url::to(['/entity/default/create']),
     ]); ?>
-  
-    <?= $form->field($model, 'postBox')->textInput(['maxlength' => 100]) ?>   
 
-    <?= $form->field($model, 'regionName')->textInput(['maxlength' => 100]) ?>    
-
-    <div class="form-group">
-      <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','id'=>'submitAddressCreate']) ?>
+    <div class="row">
+        <div class="col-md-12">
+    <?php
+        echo $form->field($model, 'entity_type_id')->widget(Select2::classname(), [
+            'data' => array_merge(["" => ""], EntityType::pdEntityType()),
+            'options' => [
+                'placeholder' => 'Entity Type...'                
+            ],
+            'addon' => [
+                'prepend' => [
+                    'content' => Html::icon('globe')
+                ],
+                'append' => [
+                    'content' => Html::button(Html::icon('plus'), [
+                        'class'=>'btn btn-default',
+                        'id'   => 'mod_entity_type_add', 
+                        'title'=>'add new entity', 
+                        'data-toggle'=>'tooltip',
+                        'href' => Url::to(['/entity/entity-type/create'])
+                    ]),
+                    'asButton'=>true
+                ]
+            ],
+            'pluginOptions' => [
+                'allowClear' => true,
+            ],
+        ]);
+    ?>
+        </div>
     </div>
 
-  <?php ActiveForm::end(); ?>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'prename')->textInput(['maxlength' => 100]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => 140]) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'name_two')->textInput(['maxlength' => 100]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'name_three')->textInput(['maxlength' => 100]) ?>
+        </div>
+    </div>    
+
+    <?= $form->field($model, 'param_date')->textInput() ?>
+
+    <?= $form->field($model, 'param_text')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'official_one')->textInput(['maxlength' => 60]) ?>
+
+    <?= $form->field($model, 'official_two')->textInput(['maxlength' => 60]) ?>
+
+    
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','id'=>'submitEntityCreate']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 
 </div>
